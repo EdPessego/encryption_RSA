@@ -1,4 +1,5 @@
-from random import randint, getrandbits
+from random import randint
+from os import urandom
 
 def is_prime(n, k):
     '''Test if a number is prime
@@ -72,7 +73,8 @@ def generate_prime_candidate(length):
         return a integer
     """
     # generate random bits
-    p = getrandbits(length)
+    p = urandom(length)
+    p = hash(p)
 
     # apply a mask to set MSB and LSB to 1
     #LSB to 1 to make it a odd number
@@ -88,6 +90,6 @@ def generate_prime_number(length=1024):
     """
     p = 4
     # keep generating while the primality test fail
-    while not is_prime(p, 128):
+    while not is_prime(p, 256):
         p = generate_prime_candidate(length)
     return p
