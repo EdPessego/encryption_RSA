@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, getrandbits
 
 def is_prime(n, k):
     '''Test if a number is prime
@@ -34,30 +34,60 @@ def is_prime(n, k):
     ############
     
     for i in range(k):
+
         #Choose a random a
-        a = randint(2,n-1)
+        a = randint(2,n - 1)
 
         # a^r mod n OR a^((2^0)*r) mod n
         test = pow(a, r, n)
 
         #If test == 1 or n - 1 then it would have passed the test
-        if test != 1 or test != n - 1:
+        if test != 1 and test != n - 1:
             d = 1
             #a^((2^d)*r) mod n
             test = pow(test, 2, n)
 
-            while d <= s - 1 or test != n - 1:
+            while d <= s - 1 and test != n - 1:
                 test = pow(a, 2, n)
 
                 if test == 1:
                     #test needs to be equal to -1 or n - 1
                     return False
-                j += 1
+                d += 1
             
-            if x != n - 1:
+            if test != n - 1:
                 #In case the loop broke, because j = s - 1
                 return False
             #It passed the test
     
     #It passed all the tests
     return True
+
+def generate_prime_candidate(length):
+    """ Generate an odd integer randomly
+
+        Args:
+            length -- int -- the length of the number to generate, in bits
+
+        return a integer
+    """
+    # generate random bits
+    p = getrandbits(length)
+
+    # apply a mask to set MSB and LSB to 1
+    #LSB to 1 to make it a odd number
+    #MSB to 1 so that it has 1024 bits and not 1023 or less
+    p |= (1 << length - 1) | 1
+    return p
+
+def generate_prime_number(length=1024):
+    """ Generate a prime
+        Args:
+            length -- int -- length of the prime to generate, in          bits
+        return a prime
+    """
+    p = 4
+    # keep generating while the primality test fail
+    while not is_prime(p, 128):
+        p = generate_prime_candidate(length)
+    return p
