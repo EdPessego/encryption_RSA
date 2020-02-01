@@ -1,5 +1,4 @@
-from random import randint
-from os import urandom
+from random import randint, SystemRandom, getrandbits
 
 def is_prime(n, k):
     '''Test if a number is prime
@@ -34,7 +33,7 @@ def is_prime(n, k):
     #DO k TESTS#
     ############
     
-    for i in range(k):
+    for _ in range(k):
 
         #Choose a random a
         a = randint(2,n - 1)
@@ -73,8 +72,7 @@ def generate_prime_candidate(length):
         return a integer
     """
     # generate random bits
-    p = urandom(length)
-    p = hash(p)
+    p = SystemRandom().getrandbits(length)
 
     # apply a mask to set MSB and LSB to 1
     #LSB to 1 to make it a odd number
