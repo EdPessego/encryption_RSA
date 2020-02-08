@@ -80,7 +80,7 @@ def generate_prime_candidate(length):
     p |= (1 << length - 1) | 1
     return p
 
-def generate_prime_number(length=1024):
+def generate_prime_number(length=512):
     """ Generate a prime
         Args:
             length -- int -- length of the prime to generate, in bits
