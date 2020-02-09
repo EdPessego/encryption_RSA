@@ -59,50 +59,62 @@ def is_coprime(a, b):
     else:
         return False
 
-def generate_co_prime(n):
+def generate_coprime(n, length):
     """ Calculates a number which is a coprime
 
         Args:
-            n -- int -- numbers
+            n, length -- int -- numbers
 
         return a integer
     """
     p = n
     while not is_coprime(p, n):
         #Using this function, because it simply generates an odd random number
-        p = generate_prime_candidate(1024)
+        p = generate_prime_candidate(length)
     return p
 
 ################
 #MAIN FUNCTIONS#
 ################
 
-def public_key():
-    """ Generate the public key, composed of n and e
+class message_receiver:
+    def __init__(self):
+        pass
 
-        return a tuple (n,e)
-    """
-    #Generate two random prime numbers
-    #p and q should have the same magnitude, but different lengths
-    p = generate_prime_number()
-    q = generate_prime_number()
+    def public_key(self):
+        """ Generate the public key, composed of n and e
 
-    n = p*q
-    lambda_n = lcm(p - 1, q - 1)
+            Args:
+                self -- object
 
-    print(lambda_n)
+            return a tuple (n,e)
+        """
+        #Generate two random prime numbers
+        #p and q should have the same magnitude, but different lengths
+        p = generate_prime_number()
+        q = generate_prime_number()
 
-    e = lambda_n*10
-    while e > lambda_n:
-        print("E")
-        e = 2**16 + 1
-        print(is_coprime(e, lambda_n))
+        self.n = p*q
+        self.lambda_n = lcm(p - 1, q - 1)
 
-    print(e)
+        #generate e, a number who is coprime with n, and bigger then 1 and smaller than lambda_n
+        self.e = generate_coprime(self.n, len(bin(int(self.lambda_n))[2:]) - 1)
 
-    #NOT DONE
+        return(self.n, self.e)
 
-##########
-#NOT DONE#
-##########
-    #Still need to find e
+    def private_key(self):
+        """ Generate the private key, composed of d
+
+            Args:
+                self -- object
+        """
+
+        #NOT CORRECT
+        #WORK IN PROGRESS
+        self.d = pow(1/self.e, 1, int(self.lambda_n))
+
+
+
+Alice = message_receiver()
+print(Alice.public_key())
+print(Alice.private_key())
