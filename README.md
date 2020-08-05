@@ -1,2 +1,5 @@
-# encryption_RSA
-Trying to make a program that encrypts a message using the RSA system
+# Encryption_RSA
+
+Tackling Encryption without almost any previous knowledge
+
+Encrypting a message using RSA
